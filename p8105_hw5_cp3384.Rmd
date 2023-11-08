@@ -1,0 +1,66 @@
+---
+title: "p8105_hw5_cp3384"
+author: "Chenshuo Pan"
+date: "2023-11-02"
+output: github_document
+---
+
+```{r}
+library(tidyverse)
+```
+
+
+
+```{r}
+homicide_data <- read.csv("data/homicide-data.csv")
+```
+
+```{r}
+city_state_summary<- homicide_data%>%
+  mutate(status = case_when(
+    str_detect(disposition,"No") ==TRUE ~"unsolved homicides ",
+    str_detect(disposition,"without") ==TRUE~"unsolved homicides ",
+    TRUE   ~ "homicides "
+  ))%>%
+  mutate(city_state  = paste(city,state))%>%
+  group_by(city_state)%>%
+  summarise(unhomicides = sum(status == "unsolved homicides "),n = n())
+```
+
+```{r}
+md <- city_state_summary %>%
+  filter(city_state == "Baltimore MD")
+unhomicides <- pull(md,unhomicides)
+n <- pull(md,n)
+md_test <- prop.test(unhomicides,n)
+
+prop_test<-broom::tidy(md_test)
+
+data.frame(city = "Baltimore MD",
+          proportion = pull(prop_test,estimate),
+          confidence_interval = paste("[",pull(prop_test,conf.low),
+                                      pull(prop_test,conf.high),"]"))
+
+
+```
+
+```{r}
+
+
+xx<-city_state_summary%>%
+  mutate(test = map2(unhomicides,n,~prop.test(.x,.y)))%>%
+  mutate(tidy = map(test,broom::tidy))%>%
+  unnest(tidy)%>%
+  mutate(confidence = paste("[",conf.low,conf.high,"]"))%>%
+  select(city_state,estimate,conf.low,conf.high,confidence)
+
+
+xx
+```
+
+```{r}
+ggplot(xx,aes(y = reorder(city_state, estimate) ,x = estimate))+
+  geom_point() +
+  geom_errorbar(aes(xmin = conf.low,xmax = conf.high))
+```
+
