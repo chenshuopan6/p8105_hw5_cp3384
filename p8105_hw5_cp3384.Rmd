@@ -5,7 +5,7 @@ date: "2023-11-02"
 output: github_document
 ---
 
-```{r}
+```{r,include=FALSE}
 library(tidyverse)
 ```
 
@@ -91,6 +91,7 @@ longitudinal%>%
   geom_line()+
   facet_grid(~arm)+
   labs(x = "Week", y = "Value", title = "observations on each subject over time") +
+ggplot(sim_output) +
   theme_minimal()
   
 ```
@@ -156,18 +157,37 @@ for (i in 1:6) {
 ```
 
 ```{r}
-
-summary_df <- data.frame(mu = numeric(6), proportion= numeric(6))
-for (i in 1:6) {
-  summary_df[,"mu"][i] = i
-  summary_df[,"proportion"][i] = sim_output[[i]]
-}
-
-ggplot(summary_df,aes(x = mu , y =proportion))+
-  geom_line()
+ggplot(sim_output,aes(x = mu , y =proportion))+
+  geom_line()+
+  geom_point() +
+  labs(x = "true value of mu", y = "proportion of rejection", title = "Rejection proportion corresponding to different mu") +
+  scale_x_continuous(breaks = seq(0, 6, 1)) +
+  theme_minimal()
 ```
+
+
 ```{r}
-
+ggplot(sim_output,aes(x = mu , y =mu_hat))+
+  geom_line() +
+  geom_point() +
+  labs(x = "true value of mu", y = "average estimate of mu hat", title = "Average estimated value versus true value of Mu") +
+  scale_x_continuous(breaks = seq(0, 6, 1)) +
+  scale_y_continuous(breaks = seq(0, 6, 1))+
+  theme_minimal()
 ```
 
 
+
+```{r}
+ggplot(sim_output) +
+  geom_point(aes(x = mu, y = mu_hat, color = "mu_hat")) +
+  geom_point(aes(x = mu, y = null, color = "mu_hat for reject part")) +
+  geom_line(aes(x = mu, y = mu_hat, color = "mu_hat")) +
+  geom_line(aes(x = mu, y = null, color = "mu_hat for reject part")) +
+  scale_color_manual(values = c("mu_hat" = "blue", "mu_hat for reject part" = "red")) +
+  labs(x = "true value of mu", y = "average estimate of mu hat", title = "Average estimated value and true value of Mu under different conditions") +
+  scale_x_continuous(breaks = seq(0, 6, 1)) +
+  scale_y_continuous(breaks = seq(0, 6, 1))+
+  theme_minimal()
+```
+Comments:
