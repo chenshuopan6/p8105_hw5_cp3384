@@ -119,6 +119,7 @@ longitudinal%>%
 ```
 
 Comment: Comparing the control group and the experimental group, we can see that among the ten sets of data in the control group, the Value only fluctuates up and down with the week, and there is no clear trend. In the experimental group, almost all IDs showed positive correlation, which means that as Week increases, Value also increases.
+
 # Question 3
 
 **First set the following design elements:**
@@ -209,7 +210,7 @@ ggplot(sim_output,aes(x = mu , y =proportion))+
   theme_minimal()
 ```
 
-Comment: As can be seen from the figure above, for the test H:$\mu = 0$: as the true average value used by our simulated data increases, the proportion of rejecting the null hypothesis increases. When the real mu value is 5 or greater, We will almost reject H:$\mu = 0 $ for all the generated random data. 
+Comment: As can be seen from the figure above, for the test H:μ = 0: as the true average value used by our simulated data increases, the proportion of rejecting the null hypothesis increases. When the real mu value is 5 or greater, We will almost reject H:μ = 0 for all the generated random data. 
 
 
 **Make a plot showing the average estimate of $\mu$^ on the y axis and the true value of $\mu$ on the x axis. Make a second plot (or overlay on the first) the average estimate of $\mu$^ only in samples for which the null was rejected on the y axis and the true value of $\mu$ on the x axis. Is the sample average of $\mu$^ across tests for which the null is rejected approximately equal to the true value of μ? Why or why not?**
@@ -245,4 +246,4 @@ ggplot(sim_output) +
   theme_minimal()
 ```
 
-Comments:When $\mu$ is 0 or 4, 5, or 6, the average predicted value is close to the average predicted value of the rejected hypothesis part, and both are approximate to the true value. And when $\mu$ is 1,2,3, the average predicted value of the part that rejects the null hypothesis will be higher than the average predicted value. The above phenomenon is because we set H:$\mu = 0 $, and we will reject the hypothesis only when the predicted value of a sample is significantly greater or less than 0. Therefore, as the true value mu increases, the average predicted value and the average predicted value of the rejected hypothesis part will converge.
+Comments:When $\mu$ is 0 or 4, 5, or 6, the average predicted value is close to the average predicted value of the rejected hypothesis part, and both are approximate to the true value. And when $\mu$ is 1,2,3, the average predicted value of the part that rejects the null hypothesis will be higher than the average predicted value. The above phenomenon is because we set H:μ = 0 , and we will reject the hypothesis only when the predicted value of a sample is significantly greater or less than 0. Therefore, as the true value mu increases, the average predicted value and the average predicted value of the rejected hypothesis part will converge.
