@@ -109,7 +109,7 @@ longitudinal
 ```{r}
 #showing observations on each subject over time
 longitudinal%>%
-  ggplot(aes(x = week, y = value,color = ID))+
+  ggplot(aes(x = week, y = value,group = ID, color = group))+
   geom_line()+
 #plot according to groups
   facet_grid(~group)+
